@@ -6,6 +6,7 @@ import { logEvent } from '../lib/audit';
 import ModeSelector from './ModeSelector';
 import StatusBar from './StatusBar';
 import ResetButton from './ResetButton';
+import ChessIcon from './ChessIcon';
 
 /**
  * PUBLIC_INTERFACE
@@ -139,16 +140,21 @@ export default function GameBoard() {
         <div className="grid" role="grid">
           {board.map((val, i) => {
             const cls = val === 'X' ? 'cell cell-x' : val === 'O' ? 'cell cell-o' : 'cell';
+            const aria = val === 'X'
+              ? `Cell ${i + 1}: Knight`
+              : val === 'O'
+              ? `Cell ${i + 1}: Queen`
+              : `Cell ${i + 1}: Empty`;
             return (
               <button
                 key={i}
                 role="gridcell"
-                aria-label={`Cell ${i + 1}`}
+                aria-label={aria}
                 className={isFinished ? `${cls} disabled` : cls}
                 onClick={() => onCellClick(i)}
                 disabled={isFinished}
               >
-                {val}
+                {val ? <ChessIcon player={val} size={40} /> : null}
               </button>
             );
           })}
